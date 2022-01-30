@@ -23,8 +23,8 @@ def test_basic_node_properties():
     assert t.nodes_count == 3
 
     # Check structure
-    assert t.search_table['root'].parent == None
-    assert t.search_table['a_level_1'].parent == t.search_table['another_level_1'].parent == root_node
+    assert t.search_table["root"].parent == None
+    assert t.search_table["a_level_1"].parent == t.search_table["another_level_1"].parent == root_node
 
 
 def test_simple_structured_taxonomy():
@@ -79,6 +79,7 @@ def test_taxons_in_level():
     assert len(t.taxons_in_level(1)) == 3
     assert len(t.taxons_in_level(2)) == 2
 
+
 def test_lineage():
 
     simple_text_taxo = (
@@ -101,8 +102,22 @@ def test_lineage():
     assert len(t.lineage("root")) == 1
     assert len(t.lineage("level1_a")) == 2
     assert len(t.lineage("level1_b")) == 2
-    print(t.lineage("level2_c"))
     assert len(t.lineage("level2_c")) == 3
-    assert t.lineage("level2_c")[-1] == t.root
-    assert t.lineage("level2_c")[0].name == 'level2_c'
-    assert t.lineage("level2_c")[0].parent.name == 'level1_c'
+
+    # Basic lineage
+    lineage = t.lineage("level2_c")
+    assert lineage[-1] == t.root
+    assert lineage[0].name == "level2_c"
+    assert lineage[0].parent.name == "level1_c"
+
+    # Reversed lineage
+    lineage = t.lineage("level2_c", reversed=True)
+    assert lineage[-1].name == "level2_c"
+    assert lineage[0].name == "root"
+    assert lineage[0].parent == None
+
+    # Lineage as str and reversed
+    lineage = t.lineage("level2_c", reversed=True, as_str=True)
+    assert lineage[0] == "root"
+    assert lineage[1] == "level1_c"
+    assert lineage[-1] == "level2_c"

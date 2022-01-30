@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 from .taxon import Taxon
 
@@ -69,7 +69,7 @@ class Taxonomy:
 
         return level_taxons
 
-    def lineage(self, taxon_id: str) -> List[Taxon]:
+    def lineage(self, taxon_id: str, reversed: bool = False, as_str: bool = False) -> Union[List[Taxon], List[str]]:
         lineage = []
         current_taxon = self.search_table.get(taxon_id, None)
         if not current_taxon:
@@ -80,8 +80,12 @@ class Taxonomy:
                 current_taxon = current_taxon.parent
                 lineage.append(current_taxon)
 
-        return lineage
+        if reversed:
+            lineage.reverse()
+        if as_str:
+            return [taxon.name for taxon in lineage]
 
+        return lineage
 
     # @classmethod
     # def levelorder_root(root):

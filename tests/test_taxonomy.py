@@ -2,25 +2,29 @@ from rllull.taxon import Taxon
 from rllull.taxonomy import Taxonomy
 
 
-def test_root_node():
+def test_basic_node_properties():
 
     t = Taxonomy("test")
 
     assert t.name == "test"
 
+    # Add a root node
     root_node = Taxon("root")
 
     t.add(None, root_node)
-
     assert t.nodes_count == 1
 
+    # Add a just two level 1 nodes node
     level_1_node = Taxon("a_level_1")
     level_1_node2 = Taxon("another_level_1")
 
     t.add(root_node, level_1_node)
     t.add(root_node, level_1_node2)
-
     assert t.nodes_count == 3
+
+    # Check structure
+    assert t.search_table['root'].parent == None
+    assert t.search_table['a_level_1'].parent == t.search_table['another_level_1'].parent == root_node
 
 
 def test_simple_structured_taxonomy():
@@ -74,5 +78,3 @@ def test_taxons_in_level():
     assert len(t.taxons_in_level(0)) == 1
     assert len(t.taxons_in_level(1)) == 3
     assert len(t.taxons_in_level(2)) == 2
-    assert t.taxons_in_level(2)[0] == Taxon("level2_b", 2)
-    assert t.taxons_in_level(2)[1] == Taxon("level2_c", 2)

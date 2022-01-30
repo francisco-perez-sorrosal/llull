@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Dict
+from typing import Dict, Optional
 
 # @dataclass
 # class _Tree(Protocol):
@@ -15,4 +15,5 @@ from typing import Dict
 class Taxon:
     name: str
     level: int = -1
+    parent: Optional["Taxon"] = None
     children: Dict[str, "Taxon"] = field(default_factory=lambda: ({}))

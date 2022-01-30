@@ -15,6 +15,7 @@ class Taxonomy:
             if root.name == parent.name and node.name not in root.children:
                 # print(f"Including {node.name} in {root}")
                 node.level = level
+                node.parent = parent
                 root.children[node.name] = node
                 self.search_table[node.name] = node
                 return 1
@@ -29,6 +30,7 @@ class Taxonomy:
         if parent is None:
             if self.root is None:
                 node.level = 0
+                node.parent = None
                 self.root = node
                 self.search_table[node.name] = node
                 print(f"Root node setup to taxon {node}")

@@ -11,21 +11,24 @@ class Taxonomy:
         self.nodes_count = 0
 
     def add(self, parent: Taxon, node: Taxon):
-        def add(root: Taxon, parent: Taxon, node: Taxon, level: int):
-            if root.name == parent.name and node.name not in root.children:
+        def add(current: Taxon, parent_id: str, node: Taxon, level: int):
+            if parent_id == current.name:
                 # print(f"Including {node.name} in {root}")
                 node.level = level
-                node.parent = parent
-                root.children[node.name] = node
+                node.parent = current
+                current.children[node.name] = node
                 self.search_table[node.name] = node
                 return 1
             else:
                 count = 0
-                for k in root.children.keys():
+                for k in current.children.keys():
                     # print(f"key {k}")
-                    count += add(root.children[k], parent, node, level + 1)
+                    count += add(current.children[k], parent_id, node, level + 1)
                 return count
 
+        if node.name in self.search_table:
+            print(f"Self node {node} already in the taxonomy. Skipping...")
+            return
         # Root is empty then the node will become the root
         if parent is None:
             if self.root is None:
@@ -37,7 +40,7 @@ class Taxonomy:
                 self.nodes_count = 1
         else:
             assert self.root is not None
-            self.nodes_count += add(self.root, parent, node, 1)
+            self.nodes_count += add(self.root, parent.name, node, 1)
             # print(self.nodes_count)
 
     def taxons_in_level(self, level: int) -> List[Taxon]:

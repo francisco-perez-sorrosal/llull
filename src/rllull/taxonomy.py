@@ -69,6 +69,20 @@ class Taxonomy:
 
         return level_taxons
 
+    def lineage(self, taxon_id: str) -> List[Taxon]:
+        lineage = []
+        current_taxon = self.search_table.get(taxon_id, None)
+        if not current_taxon:
+            print("Sorry, taxon {taxon_id} not found")
+        else:
+            lineage.append(current_taxon)
+            while current_taxon.parent:
+                current_taxon = current_taxon.parent
+                lineage.append(current_taxon)
+
+        return lineage
+
+
     # @classmethod
     # def levelorder_root(root):
     #     if root:

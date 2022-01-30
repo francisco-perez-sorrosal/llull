@@ -1,0 +1,19 @@
+# Changes here will be overwritten by Copier
+_commit: 0.8.1
+_src_path: gh:pawamoy/copier-pdm
+author_email: fperezsorrosal@gmail.com
+author_fullname: Francisco Perez-Sorrosal
+author_username: francisco-perez-sorrosal
+copyright_date: '2022'
+copyright_holder: Francisco Perez-Sorrosal
+copyright_holder_email: fperezsorrosal@gmail.com
+copyright_license: MIT License
+project_description: Taxonomy Manager
+project_name: rllull
+python_package_command_line_name: rllull
+python_package_distribution_name: rllull
+python_package_import_name: rllull
+repository_name: rllull
+repository_namespace: francisco-perez-sorrosal
+repository_provider: github.com
+use_precommit: false

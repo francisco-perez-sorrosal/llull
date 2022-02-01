@@ -4,7 +4,7 @@
         "__pypackages__/3.9/lib"
     ],
     // "python.linting.pylintPath": "__pypackages__/3.9/bin/pylint",
-    // "python.linting.pylintArgs": ["--load-plugins=pylint_django",],
+    "python.linting.pylintArgs": ["--load-plugins=pylint_django",],
     "python.testing.pytestPath": "__pypackages__/3.9/bin/pytest",
     "python.testing.pytestArgs": [
         "tests"

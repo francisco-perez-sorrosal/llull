@@ -1,3 +1,4 @@
+import dataclasses
 from typing import Dict, List, Optional, Union
 
 from .taxon import Taxon
@@ -87,10 +88,21 @@ class Taxonomy:
 
         return lineage
 
-    # @classmethod
-    # def levelorder_root(root):
-    #     if root:
-    #         level = []
-    #         level.append(root)
-    #         print(root.val)
-    #         levelorder(level)
+    @classmethod
+    def create_subtaxonomy(cls: str, name: str, new_root_id: str, t: "Taxonomy") -> "Taxonomy":
+        def add_children(current_taxon: Taxon):
+            for child in current_taxon.children.values():
+                child_copy = dataclasses.replace(child)
+                sub_t.add(current_taxon.id, child_copy)
+                add_children(child)
+
+        sub_t = Taxonomy(name)
+
+        new_root = t.search_table.get(new_root_id, None)
+        if new_root is None:
+            raise ValueError(f"Root node id {new_root_id} not found. Can't create taxonomy")
+        new_root_copy = dataclasses.replace(new_root)
+        sub_t.add(None, new_root_copy)
+        add_children(new_root_copy)
+
+        return sub_t

@@ -44,3 +44,9 @@ With [`pipx`](https://github.com/pipxproject/pipx):
 python3.7 -m pip install --user pipx
 pipx install rllull
 ```
+
+
+## Dev
+
+For running tests in vscode follow the instructions [here](https://pdm.fming.dev/#vscode), activating PEP582 globally
+and launching VSCode from the command line with `code .` in the project directory.

@@ -1,13 +1,18 @@
 {
-    "python.autoComplete.extraPaths": ["__pypackages__/<major.minor>/lib"],
+    "python.autoComplete.extraPaths": ["${workspaceFolder}/src", "${workspaceFolder}/__pypackages__/3.9/lib"],
     "python.analysis.extraPaths": [
-        "__pypackages__/<major.minor>/lib"
+        "${workspaceFolder}/__pypackages__/3.9/lib"
     ],
+    "python.linting.pylintArgs": ["--load-plugins=pylint_django",],
+    "python.testing.pytestPath": "${workspaceFolder}/__pypackages__/3.9/bin/pytest",
     "python.testing.pytestArgs": [
-        "tests"
+        "${workspaceFolder}/tests"
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.nosetestsEnabled": false,
     "python.testing.pytestEnabled": true,
-    "env": {"PYTHONPATH": "src:__pypackages__/<major.minor>/lib"}
+    "python.envFile": "${workspaceFolder}/.env",
+    "env": {"PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/__pypackages__/3.9/lib"},
+    "python.linting.pylintPath": "${workspaceFolder}/__pypackages__/3.9/bin/pylint",
+    "python.pythonPath": "/usr/local/opt/python@3.9/bin/python3.9"
 }

@@ -18,8 +18,10 @@
             "module": "pytest",
             "args": ["tests"],
             "justMyCode": false,
-            "env": {"PYTHONPATH": "__pypackages__/<major.minor>/lib"}
-        }
+            "env": {"PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/__pypackages__/3.9/lib"},
+            "console": "integratedTerminal",
+        },
+        
 
     ]
 }

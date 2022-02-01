@@ -44,6 +44,8 @@ Funding = "https://github.com/sponsors/francisco-perez-sorrosal"
 [project.scripts]
 rllull = "rllull.cli:main"
 
+[project.optional-dependencies]
+
 [tool.pdm]
 version = {use_scm = true}
 package-dir = "src"
@@ -102,6 +104,10 @@ typing = [
     "types-toml>=0.10",
 ]
 security = ["safety>=1.10"]
+dev = [
+    "pytest>=6.2.5",
+    "pylint"
+]
 
 [tool.black]
 line-length = 120

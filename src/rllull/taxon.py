@@ -1,19 +1,15 @@
 from dataclasses import dataclass, field
 from typing import Dict, Optional
 
-# @dataclass
-# class _Tree(Protocol):
-#     def __init__(
-#             self,
-#             data: int,
-#             left: Optional['_Tree'] = None,
-#             right: Optional['_Tree'] = None,
-#     ) -> None: ...
-
 
 @dataclass
 class Taxon:
-    name: str
+    id: str
+    name: Optional[str] = None
     level: int = -1
     parent: Optional["Taxon"] = None
     children: Dict[str, "Taxon"] = field(default_factory=lambda: ({}))
+
+    def __post_init__(self):
+        if self.name is None:
+            self.name = self.id

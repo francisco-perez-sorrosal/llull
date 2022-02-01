@@ -10,7 +10,7 @@ class Taxonomy:
         self.search_table: Dict[str, Taxon] = {}
         self.nodes_count = 0
 
-    def add(self, parent: Taxon, node: Taxon):
+    def add(self, parent_id: str, node: Taxon):
         def add(current: Taxon, parent_id: str, node: Taxon, level: int):
             if parent_id == current.name:
                 # print(f"Including {node.name} in {root}")
@@ -30,7 +30,7 @@ class Taxonomy:
             print(f"Self node {node} already in the taxonomy. Skipping...")
             return
         # Root is empty then the node will become the root
-        if parent is None:
+        if parent_id is None:
             if self.root is None:
                 node.level = 0
                 node.parent = None
@@ -40,7 +40,7 @@ class Taxonomy:
                 self.nodes_count = 1
         else:
             assert self.root is not None
-            self.nodes_count += add(self.root, parent.name, node, 1)
+            self.nodes_count += add(self.root, parent_id, node, 1)
             # print(self.nodes_count)
 
     def taxons_in_level(self, level: int) -> List[Taxon]:

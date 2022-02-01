@@ -33,6 +33,7 @@ def test_basic_node_properties():
 
     # Add a root node
     root_node = Taxon("root")
+    assert root_node.id == root_node.name
 
     t.add(None, root_node)
     assert t.nodes_count == 1

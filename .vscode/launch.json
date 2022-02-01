@@ -18,7 +18,7 @@
             "module": "pytest",
             "args": ["tests"],
             "justMyCode": false,
-            "env": {"PYTHONPATH": "${workspaceFolder}/src:${workspaceFolder}/__pypackages__/3.9/lib"},
+            "env": {"PYTHONPATH": "src:__pypackages__/3.9/lib"},
             "console": "integratedTerminal",
         },
         

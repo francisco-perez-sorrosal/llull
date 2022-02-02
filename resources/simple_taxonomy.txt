@@ -1,6 +1,6 @@
 /root/sports/basketball
 /root/sports/football
-/root/sports/football/real
+/root/sports/football/real_madrid
 /root/sports/hockey
 /root/sports/tennis
 /root/sports/tennis/rafael_nadal

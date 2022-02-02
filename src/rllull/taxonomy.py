@@ -72,7 +72,7 @@ class Taxonomy:
         lineage = []
         current_taxon = self.search_table.get(taxon_id, None)
         if not current_taxon:
-            logger.info("Sorry, taxon {taxon_id} not found")
+            logger.info(f"Sorry, taxon {taxon_id} not found")
         else:
             lineage.append(current_taxon)
             while current_taxon.parent:

@@ -96,6 +96,11 @@ def test_lineage(t):
     assert lineage[1] == "level1_c"
     assert lineage[-1] == "level2_c"
 
+def test_strpath(t):
+    assert t.strpath("root") == "/root"
+    assert t.strpath("level1_a") == t.strpath("root") + "/level1_a"
+    assert t.strpath("root", "-") == "-root"
+    assert t.strpath("level1_a", "-") == t.strpath("root", "-") + "-level1_a"
 
 def test_subtaxonomy(t):
     sub_t = Taxonomy.create_subtaxonomy("new_taxonomy", "level1_c", t)

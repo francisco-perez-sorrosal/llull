@@ -95,6 +95,9 @@ class Taxonomy:
 
         return lineage
 
+    def strpath(self, taxon_id: str, sep: str = "/") -> str:
+        return sep + sep.join(self.lineage(taxon_id, True, True))
+
     @classmethod
     def create_subtaxonomy(cls: type["Taxonomy"], name: str, new_root_id: str, t: "Taxonomy") -> "Taxonomy":
         def add_children(current_taxon: Taxon):

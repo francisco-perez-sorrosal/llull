@@ -29,7 +29,9 @@ classifiers = [
     "Topic :: Utilities",
     "Typing :: Typed",
 ]
-dependencies = []
+dependencies = [
+    "loguru>=0.6.0",
+]
 
 [project.urls]
 Homepage = "https://francisco-perez-sorrosal.github.io/rllull"
@@ -106,7 +108,8 @@ typing = [
 security = ["safety>=1.10"]
 dev = [
     "pytest>=6.2.5",
-    "pylint"
+    "pylint",
+    "ipykernel>=6.8.0",
 ]
 
 [tool.black]

@@ -1,0 +1,13 @@
+/root/sports/basketball
+/root/sports/football
+/root/sports/football/real
+/root/sports/hockey
+/root/sports/tennis
+/root/sports/tennis/rafael_nadal
+/root/sports/tennis/roger_federer
+/root/hobbies/lego_building
+/root/hobbies/running
+/root/hobbies/climbing
+/root/hobbies/climbing/top_rope
+/root/hobbies/climbing/boulder
+/root/hobbies/puzzles

@@ -4,7 +4,7 @@
         "__pypackages__/3.9/lib"
     ],
     // "python.linting.pylintPath": "__pypackages__/3.9/bin/pylint",
-    "python.linting.pylintArgs": ["--load-plugins=pylint_django",],
+    // "python.linting.pylintArgs": ["--load-plugins=pylint_django",],
     "python.testing.pytestPath": "__pypackages__/3.9/bin/pytest",
     "python.testing.pytestArgs": [
         "tests"
@@ -14,5 +14,6 @@
     "python.testing.pytestEnabled": true,
     "python.envFile": "${workspaceFolder}/.env",
     "env": {"PYTHONPATH": "src:__pypackages__/3.9/lib"},
-    "python.pythonPath": "/usr/local/opt/python@3.9/bin/python3.9"
+    "python.pythonPath": "/usr/local/opt/python@3.9/bin/python3.9",
+    "jupyter.jupyterServerType": "local"
 }

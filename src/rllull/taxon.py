@@ -13,3 +13,11 @@ class Taxon:
     def __post_init__(self):
         if self.name is None:
             self.name = self.id
+
+    def __eq__(self, other):
+        return (
+            self.id == other.id
+            and self.name == other.name
+            and self.level == other.level
+            and self.children == other.children
+        )

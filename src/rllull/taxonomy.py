@@ -1,6 +1,7 @@
 import dataclasses
-from loguru import logger
 from typing import Dict, List, Optional, Union
+
+from loguru import logger
 
 from .taxon import Taxon
 
@@ -12,17 +13,25 @@ class Taxonomy:
         self.search_table: Dict[str, Taxon] = {}
         self.nodes_count = 0
 
-    def add(self, parent_id: str, node: Taxon):
+    def __eq__(self, other):
+        return (
+            self.name == other.name
+            and self.root == other.root
+            and self.search_table == other.search_table
+            and self.nodes_count == other.nodes_count
+        )
+
+    def add(self, parent_id: Optional[str], node: Taxon):
         def add(current: Taxon, parent_id: str, node: Taxon, level: int):
             if parent_id == current.name:
                 logger.debug(f"Including {node.name} in {current}")
                 node.level = level
                 node.parent = current
-                current.children[node.name] = node
-                self.search_table[node.name] = node
+                current.children[str(node.id)] = node
+                self.search_table[str(node.id)] = node
                 return 1
             else:
-                count = 0                
+                count = 0
                 for k in current.children.keys():
                     logger.debug(f"key {k}")
                     count += add(current.children[k], parent_id, node, level + 1)
@@ -37,7 +46,7 @@ class Taxonomy:
                 node.level = 0
                 node.parent = None
                 self.root = node
-                self.search_table[node.name] = node
+                self.search_table[str(node.id)] = node
                 logger.info(f"Root nodee setup to taxon {node}")
                 self.nodes_count = 1
         else:
@@ -82,12 +91,12 @@ class Taxonomy:
         if reversed:
             lineage.reverse()
         if as_str:
-            return [taxon.name for taxon in lineage]
+            return [str(taxon.name) for taxon in lineage]
 
         return lineage
 
     @classmethod
-    def create_subtaxonomy(cls: str, name: str, new_root_id: str, t: "Taxonomy") -> "Taxonomy":
+    def create_subtaxonomy(cls: type["Taxonomy"], name: str, new_root_id: str, t: "Taxonomy") -> "Taxonomy":
         def add_children(current_taxon: Taxon):
             for child in current_taxon.children.values():
                 child_copy = dataclasses.replace(child)
@@ -104,3 +113,19 @@ class Taxonomy:
         add_children(new_root_copy)
 
         return sub_t
+
+    @classmethod
+    def create_from_file(cls: type["Taxonomy"], name: str, filename: str, sep: str = "/") -> "Taxonomy":
+        with open(filename) as f:
+            t = Taxonomy(name)
+            for line in f.read().splitlines():
+                nodes_in_line = list(filter(None, line.split(sep)))
+                i = 0
+                parent_node_id = None
+                logger.debug(f"Nodes in line: {nodes_in_line}")
+                while i < len(nodes_in_line):
+                    current_node = Taxon(nodes_in_line[i])
+                    t.add(parent_node_id, current_node)
+                    parent_node_id = current_node.id
+                    i += 1
+        return t

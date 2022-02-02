@@ -1,14 +1,18 @@
+import os
+from pathlib import Path
+
 import pytest
 
 from rllull.taxon import Taxon
 from rllull.taxonomy import Taxonomy
 
+current_path = Path(os.path.dirname(os.path.realpath(__file__)))
+simple_text_taxo_path = current_path / "resources" / "simple_text_taxo.txt"
+
 
 @pytest.fixture(name="t")
 def simple_taxo():
-    simple_text_taxo = (
-        "/root/level1_a\n/root/level1_b\n/root/level1_b/level2_b\n/root/level1_c\n/root/level1_c/level2_c\n/root/level1_c/level2_d\n"
-    )
+    simple_text_taxo = "/root/level1_a\n/root/level1_b\n/root/level1_b/level2_b\n/root/level1_c\n/root/level1_c/level2_c\n/root/level1_c/level2_d\n"
 
     t = Taxonomy("test")
 
@@ -103,3 +107,8 @@ def test_subtaxonomy(t):
     assert lineage[-1] == sub_t.root
     assert lineage[0].name == "level2_c"
     assert lineage[0].parent.name == "level1_c"
+
+
+def test_taxonomy_creation_from_text_file(t):
+    t_from_file = Taxonomy.create_from_file("test", simple_text_taxo_path)
+    assert t == t_from_file

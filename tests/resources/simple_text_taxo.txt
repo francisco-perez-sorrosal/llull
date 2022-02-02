@@ -1,0 +1,6 @@
+/root/level1_a
+/root/level1_b
+/root/level1_b/level2_b
+/root/level1_c
+/root/level1_c/level2_c
+/root/level1_c/level2_d

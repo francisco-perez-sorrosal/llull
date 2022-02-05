@@ -10,7 +10,7 @@ def check_and_create_dir(path: str):
     """If a directory doesn't exist, then its created.
 
     Args:
-        dir: The directory to create.
+        path: The directory to create.
     """
     if not os.path.exists(path):
         os.makedirs(path)

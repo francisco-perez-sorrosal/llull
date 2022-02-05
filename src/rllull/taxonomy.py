@@ -1,9 +1,11 @@
 import dataclasses
-from typing import Dict, List, Optional, Union
+from typing import Any, Dict, Iterable, List, Optional, Union
+from urllib.parse import urlparse
 
 from loguru import logger
 
 from .taxon import Taxon
+from .utils import download_file
 
 
 class Taxonomy:
@@ -39,10 +41,8 @@ class Taxonomy:
                 else:  # Defensive code
                     logger.warning(f"Very unlikely!!! Trying to add {node.id} to the children of {current.id}")
                     for k in current.children.keys():
-                    logger.debug(f"key {k}")
                         count += add(current.children[k], parent_id, node, level + 1)
                 return count
-
 
         if node.id in self.search_table:
             # logger.debug(f"Node {node.id} already in the taxonomy. Skipping...")
@@ -84,7 +84,7 @@ class Taxonomy:
 
         return level_taxons
 
-    def lineage(self, taxon_id: str, reversed: bool = False, as_str: bool = False) -> Union[List[Taxon], List[str]]:
+    def lineage(self, taxon_id: str, reversed: bool = False, as_str: bool = False) -> Iterable[Any]:
         lineage = []
         current_taxon = self.search_table.get(taxon_id, None)
         if not current_taxon:
@@ -125,17 +125,49 @@ class Taxonomy:
         return sub_t
 
     @classmethod
-    def create_from_file(cls: type["Taxonomy"], name: str, filename: str, sep: str = "/") -> "Taxonomy":
+    def create_from_file(
+        cls: type["Taxonomy"],
+        name: str,
+        uri: str,
+        sep: str = "/",
+        add_root_taxon: bool = False,
+        skip_header: bool = False,
+        header_lines=0,
+    ) -> "Taxonomy":
+
+        parsed_uri = urlparse(uri)
+        if parsed_uri.scheme == "file" or not parsed_uri.scheme:
+            logger.info(f"Getting taxonomy from {uri}")
+            filename = parsed_uri.path
+        elif parsed_uri.scheme == "http" or parsed_uri.scheme == "https":
+            filename = download_file(parsed_uri)
+        else:
+            raise ValueError(f"URI scheme {parsed_uri.scheme} not valid")
+
         with open(filename) as f:
             t = Taxonomy(name)
+
+            previous_line_nodes: List[str] = []
+            skipped_header_lines = 0
             for line in f.read().splitlines():
+                if skip_header and skipped_header_lines < header_lines:
+                    skipped_header_lines += 1
+                    logger.info(f"Skipping header line {skipped_header_lines}: {line}")
+                    continue
                 nodes_in_line = list(filter(None, line.split(sep)))
-                i = 0
-                parent_node_id = None
-                logger.debug(f"Nodes in line: {nodes_in_line}")
-                while i < len(nodes_in_line):
-                    current_node = Taxon(nodes_in_line[i])
-                    t.add(parent_node_id, current_node)
-                    parent_node_id = current_node.id
-                    i += 1
+                if add_root_taxon:
+                    nodes_in_line = ["root"] + nodes_in_line
+                if len(set(nodes_in_line).intersection(set(previous_line_nodes))) == len(nodes_in_line) - 1:
+                    current_node = Taxon(nodes_in_line[-1])
+                    t.add(nodes_in_line[-2], current_node)
+                else:
+                    i = 0
+                    parent_node_id = None
+                    logger.debug(f"Nodes in line: {nodes_in_line}")
+                    while i < len(nodes_in_line):
+                        current_node = Taxon(nodes_in_line[i])
+                        t.add(parent_node_id, current_node)
+                        parent_node_id = current_node.id
+                        i += 1
+                previous_line_nodes = nodes_in_line
         return t

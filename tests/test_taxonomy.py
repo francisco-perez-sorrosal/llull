@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 import pytest
+import responses
 
 from rllull.taxon import Taxon
 from rllull.taxonomy import Taxonomy
@@ -96,11 +97,13 @@ def test_lineage(t):
     assert lineage[1] == "level1_c"
     assert lineage[-1] == "level2_c"
 
+
 def test_strpath(t):
     assert t.strpath("root") == "/root"
     assert t.strpath("level1_a") == t.strpath("root") + "/level1_a"
     assert t.strpath("root", "-") == "-root"
     assert t.strpath("level1_a", "-") == t.strpath("root", "-") + "-level1_a"
+
 
 def test_subtaxonomy(t):
     sub_t = Taxonomy.create_subtaxonomy("new_taxonomy", "level1_c", t)
@@ -114,6 +117,27 @@ def test_subtaxonomy(t):
     assert lineage[0].parent.name == "level1_c"
 
 
+@responses.activate
 def test_taxonomy_creation_from_text_file(t):
-    t_from_file = Taxonomy.create_from_file("test", simple_text_taxo_path)
+    # Happy path from file
+    t_from_file = Taxonomy.create_from_file("test", str(simple_text_taxo_path))
     assert t == t_from_file
+
+    # Happy path from uri
+    with open(str(simple_text_taxo_path), "rb") as taxo_txt:  # Mocking response
+        responses.add(
+            responses.GET,
+            "http://example.org/taxonomies/my_taxonomy.txt",
+            body=taxo_txt.read(),
+            status=200,
+            content_type="text/plain",
+            stream=True,
+        )
+
+        t_from_file = Taxonomy.create_from_file("test", "http://example.org/taxonomies/my_taxonomy.txt")
+        assert t == t_from_file
+
+    # URI Scheme not recognized
+    with pytest.raises(ValueError) as excinfo:
+        Taxonomy.create_from_file("test", "hxxtp://this_is_wrong")
+    assert "not valid" in str(excinfo.value)

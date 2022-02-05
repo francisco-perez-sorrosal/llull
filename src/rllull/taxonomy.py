@@ -24,7 +24,7 @@ class Taxonomy:
     def add(self, parent_id: Optional[str], node: Taxon):
         def add(current: Taxon, parent_id: str, node: Taxon, level: int):
             if parent_id == current.name:
-                logger.debug(f"Including {node.name} in {current}")
+                # logger.debug(f"Including {node.name} in {current.id}")
                 node.level = level
                 node.parent = current
                 current.children[str(node.id)] = node
@@ -32,13 +32,20 @@ class Taxonomy:
                 return 1
             else:
                 count = 0
-                for k in current.children.keys():
+                if parent_id in self.search_table.keys():  # Insert straight!!!
+                    parent_taxon = self.search_table[parent_id]
+                    # logger.debug(f"Jumping to {parent_taxon.id}")
+                    count += add(parent_taxon, parent_id, node, parent_taxon.level + 1)
+                else:  # Defensive code
+                    logger.warning(f"Very unlikely!!! Trying to add {node.id} to the children of {current.id}")
+                    for k in current.children.keys():
                     logger.debug(f"key {k}")
-                    count += add(current.children[k], parent_id, node, level + 1)
+                        count += add(current.children[k], parent_id, node, level + 1)
                 return count
 
-        if node.name in self.search_table:
-            logger.debug(f"Self node {node} already in the taxonomy. Skipping...")
+
+        if node.id in self.search_table:
+            # logger.debug(f"Node {node.id} already in the taxonomy. Skipping...")
             return
         # Root is empty then the node will become the root
         if parent_id is None:

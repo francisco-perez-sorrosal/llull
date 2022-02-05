@@ -3,11 +3,11 @@
 # You might be tempted to import things from `__main__` later,
 # but that will cause problems: the code will get executed twice:
 #
-# - When you run `python -m rllull` python will execute
+# - When you run `python -m llull` python will execute
 #   `__main__.py` as a script. That means there won't be any
-#   `rllull.__main__` in `sys.modules`.
+#   `llull.__main__` in `sys.modules`.
 # - When you import `__main__` it will get executed again (as a module) because
-#   there's no `rllull.__main__` in `sys.modules`.
+#   there's no `llull.__main__` in `sys.modules`.
 
 """Module that contains the command line application."""
 
@@ -22,14 +22,14 @@ def get_parser() -> argparse.ArgumentParser:
     Returns:
         An argparse parser.
     """
-    return argparse.ArgumentParser(prog="rllull")
+    return argparse.ArgumentParser(prog="llull")
 
 
 def main(args: Optional[List[str]] = None) -> int:
     """
     Run the main program.
 
-    This function is executed when you type `rllull` or `python -m rllull`.
+    This function is executed when you type `llull` or `python -m llull`.
 
     Arguments:
         args: Arguments passed from the command line.

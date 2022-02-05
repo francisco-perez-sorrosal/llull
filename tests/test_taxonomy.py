@@ -4,8 +4,8 @@ from pathlib import Path
 import pytest
 import responses
 
-from rllull.taxon import Taxon
-from rllull.taxonomy import Taxonomy
+from llull.taxon import Taxon
+from llull.taxonomy import Taxonomy
 
 current_path = Path(os.path.dirname(os.path.realpath(__file__)))
 simple_text_taxo_path = current_path / "resources" / "simple_text_taxo.txt"

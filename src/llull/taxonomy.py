@@ -1,5 +1,5 @@
 import dataclasses
-from typing import Any, Dict, Iterable, List, Optional, Union
+from typing import Any, Dict, Iterable, List, Optional
 from urllib.parse import urlparse
 
 from loguru import logger

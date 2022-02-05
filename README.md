@@ -1,16 +1,16 @@
-# rllull
+# llull
 
-[![ci](https://github.com/francisco-perez-sorrosal/rllull/workflows/ci/badge.svg)](https://github.com/francisco-perez-sorrosal/rllull/actions?query=workflow%3Aci)
-[![documentation](https://img.shields.io/badge/docs-mkdocs%20material-blue.svg?style=flat)](https://francisco-perez-sorrosal.github.io/rllull/)
-[![pypi version](https://img.shields.io/pypi/v/rllull.svg)](https://pypi.org/project/rllull/)
-[![gitpod](https://img.shields.io/badge/gitpod-workspace-blue.svg?style=flat)](https://gitpod.io/#https://github.com/francisco-perez-sorrosal/rllull)
-[![gitter](https://badges.gitter.im/join%20chat.svg)](https://gitter.im/rllull/community)
+[![ci](https://github.com/francisco-perez-sorrosal/llull/workflows/ci/badge.svg)](https://github.com/francisco-perez-sorrosal/llull/actions?query=workflow%3Aci)
+[![documentation](https://img.shields.io/badge/docs-mkdocs%20material-blue.svg?style=flat)](https://francisco-perez-sorrosal.github.io/llull/)
+[![pypi version](https://img.shields.io/pypi/v/llull.svg)](https://pypi.org/project/llull/)
+[![gitpod](https://img.shields.io/badge/gitpod-workspace-blue.svg?style=flat)](https://gitpod.io/#https://github.com/francisco-perez-sorrosal/llull)
+[![gitter](https://badges.gitter.im/join%20chat.svg)](https://gitter.im/llull/community)
 
 Taxonomy Manager
 
 ## Requirements
 
-rllull requires Python 3.7 or above.
+llull requires Python 3.7 or above.
 
 <details>
 <summary>To install Python 3.7, I recommend using <a href="https://github.com/pyenv/pyenv"><code>pyenv</code></a>.</summary>
@@ -36,13 +36,13 @@ pyenv global system 3.7.12
 
 With `pip`:
 ```bash
-pip install rllull
+pip install llull
 ```
 
 With [`pipx`](https://github.com/pipxproject/pipx):
 ```bash
 python3.7 -m pip install --user pipx
-pipx install rllull
+pipx install llull
 ```
 
 

@@ -1,5 +1,5 @@
 """
-Entry-point module, in case you use `python -m rllull`.
+Entry-point module, in case you use `python -m llull`.
 
 Why does this file exist, and why `__main__`? For more info, read:
 
@@ -9,7 +9,7 @@ Why does this file exist, and why `__main__`? For more info, read:
 
 import sys
 
-from rllull.cli import main
+from llull.cli import main
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv[1:]))

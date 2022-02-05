@@ -10,7 +10,7 @@ Nothing easier!
 Fork and clone the repository, then:
 
 ```bash
-cd rllull
+cd llull
 make setup
 ```
 
@@ -32,7 +32,7 @@ make setup
 
 You now have the dependencies installed.
 
-You can run the application with `pdm run rllull [ARGS...]`.
+You can run the application with `pdm run llull [ARGS...]`.
 
 Run `make help` to see all the available actions!
 

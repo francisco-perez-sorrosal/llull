@@ -23,8 +23,8 @@ def download_file(uri: ParseResult) -> str:
     logger.info(f"Downloading taxonomy from {uri.geturl()}")
     r = requests.get(uri.geturl(), allow_redirects=True)
     basename = os.path.basename(uri.path)
-    filename = Path(Path.home(), ".cache", "rllull", basename).as_posix()
-    check_and_create_dir(Path(Path.home(), ".cache", "rllull").as_posix())
+    filename = Path(Path.home(), ".cache", "llull", basename).as_posix()
+    check_and_create_dir(Path(Path.home(), ".cache", "llull").as_posix())
     open(filename, "wb").write(r.content)
     logger.info(f"Taxonomy saved into {filename}")
     return filename

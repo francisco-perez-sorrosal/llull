@@ -3,7 +3,7 @@ requires = ["pdm-pep517"]
 build-backend = "pdm.pep517.api"
 
 [project]
-name = "rllull"
+name = "llull"
 description = "Taxonomy Manager"
 authors = [{name = "Francisco Perez-Sorrosal", email = "fperezsorrosal@gmail.com"}]
 license = {file = "LICENSE"}
@@ -36,17 +36,17 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://francisco-perez-sorrosal.github.io/rllull"
-Documentation = "https://francisco-perez-sorrosal.github.io/rllull"
-Changelog = "https://francisco-perez-sorrosal.github.io/rllull/changelog"
-Repository = "https://github.com/francisco-perez-sorrosal/rllull"
-Issues = "https://github.com/francisco-perez-sorrosal/rllull/issues"
-Discussions = "https://github.com/francisco-perez-sorrosal/rllull/discussions"
-Gitter = "https://gitter.im/rllull/community"
+Homepage = "https://francisco-perez-sorrosal.github.io/llull"
+Documentation = "https://francisco-perez-sorrosal.github.io/llull"
+Changelog = "https://francisco-perez-sorrosal.github.io/llull/changelog"
+Repository = "https://github.com/francisco-perez-sorrosal/llull"
+Issues = "https://github.com/francisco-perez-sorrosal/llull/issues"
+Discussions = "https://github.com/francisco-perez-sorrosal/llull/discussions"
+Gitter = "https://gitter.im/llull/community"
 Funding = "https://github.com/sponsors/francisco-perez-sorrosal"
 
 [project.scripts]
-rllull = "rllull.cli:main"
+llull = "llull.cli:main"
 
 [project.optional-dependencies]
 
@@ -127,5 +127,5 @@ multi_line_output = 3
 force_single_line = false
 balanced_wrapping = true
 default_section = "THIRDPARTY"
-known_first_party = "rllull"
+known_first_party = "llull"
 include_trailing_comma = true

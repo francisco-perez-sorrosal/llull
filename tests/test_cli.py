@@ -2,7 +2,7 @@
 
 import pytest
 
-from rllull import cli
+from llull import cli
 
 
 def test_main():
@@ -20,4 +20,4 @@ def test_show_help(capsys):
     with pytest.raises(SystemExit):
         cli.main(["-h"])
     captured = capsys.readouterr()
-    assert "rllull" in captured.out
+    assert "llull" in captured.out

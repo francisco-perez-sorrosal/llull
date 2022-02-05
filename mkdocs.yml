@@ -1,8 +1,8 @@
-site_name: "rllull"
+site_name: "llull"
 site_description: "Taxonomy Manager"
-site_url: "https://francisco-perez-sorrosal.github.io/rllull"
-repo_url: "https://github.com/francisco-perez-sorrosal/rllull"
-repo_name: "francisco-perez-sorrosal/rllull"
+site_url: "https://francisco-perez-sorrosal.github.io/llull"
+repo_url: "https://github.com/francisco-perez-sorrosal/llull"
+repo_name: "francisco-perez-sorrosal/llull"
 site_dir: "site"
 
 nav:
@@ -66,7 +66,7 @@ plugins:
 - coverage
 - mkdocstrings:
     watch:
-    - src/rllull
+    - src/llull
 
 extra:
   social:

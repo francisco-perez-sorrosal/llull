@@ -23,6 +23,7 @@ def get_credits_data() -> dict:
     metadata_pdm = toml.load(project_dir / "pyproject.toml")["tool"]["pdm"]
     lock_data = toml.load(project_dir / "pdm.lock")
     project_name = metadata["name"]
+    more_credits = metadata.get("more_credits", "")
 
     all_dependencies = chain(
         metadata.get("dependencies", []),
@@ -38,6 +39,7 @@ def get_credits_data() -> dict:
         "project_name": project_name,
         "direct_dependencies": sorted(direct_dependencies),
         "indirect_dependencies": sorted(indirect_dependencies),
+        "more_credits": more_credits
     }
 
 

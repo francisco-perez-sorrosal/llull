@@ -8,7 +8,7 @@ description = "Taxonomy Manager"
 authors = [{name = "Francisco Perez-Sorrosal", email = "fperezsorrosal@gmail.com"}]
 license = {file = "LICENSE"}
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.7"
 keywords = []
 dynamic = ["version"]
 classifiers = [

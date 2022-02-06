@@ -1,5 +1,5 @@
 import dataclasses
-from typing import Any, Dict, Iterable, List, Optional
+from typing import Any, Dict, Iterable, List, Optional, Type
 from urllib.parse import urlparse
 
 from loguru import logger
@@ -106,7 +106,7 @@ class Taxonomy:
         return sep + sep.join(self.lineage(taxon_id, True, True))
 
     @classmethod
-    def create_subtaxonomy(cls: type["Taxonomy"], name: str, new_root_id: str, t: "Taxonomy") -> "Taxonomy":
+    def create_subtaxonomy(cls: Type["Taxonomy"], name: str, new_root_id: str, t: "Taxonomy") -> "Taxonomy":
         def add_children(current_taxon: Taxon):
             for child in current_taxon.children.values():
                 child_copy = dataclasses.replace(child)
@@ -126,7 +126,7 @@ class Taxonomy:
 
     @classmethod
     def create_from_file(
-        cls: type["Taxonomy"],
+        cls: Type["Taxonomy"],
         name: str,
         uri: str,
         sep: str = "/",

@@ -55,8 +55,8 @@ jobs:
     - name: Check if the documentation builds correctly
       run: pdm run duty check-docs
 
-    - name: Check the code quality
-      run: pdm run duty check-quality
+    # - name: Check the code quality
+    #   run: pdm run duty check-quality
 
     - name: Check if the code is correctly typed
       run: pdm run duty check-types
@@ -69,15 +69,15 @@ jobs:
     strategy:
       matrix:
         os:
-        - ubuntu-latest
+        # - ubuntu-latest
         - macos-latest
-        - windows-latest
+        # - windows-latest
         python-version:
         - "3.7"
         - "3.8"
         - "3.9"
         - "3.10"
-        - "3.11-dev"
+        # - "3.11-dev"
 
     runs-on: ${{ matrix.os }}
 

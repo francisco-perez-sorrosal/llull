@@ -101,6 +101,7 @@ tests = [
     "pytest-randomly>=3.10",
     "pytest-sugar>=0.9",
     "pytest-xdist>=2.4",
+    "responses>=0.18.0",
 ]
 typing = [
     "mypy>=0.910",

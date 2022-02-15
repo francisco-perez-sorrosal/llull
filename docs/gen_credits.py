@@ -39,7 +39,7 @@ def get_credits_data() -> dict:
         "project_name": project_name,
         "direct_dependencies": sorted(direct_dependencies),
         "indirect_dependencies": sorted(indirect_dependencies),
-        "more_credits": more_credits
+        "more_credits": "",
     }
 
 

@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from typing import Dict, List
 from urllib.parse import ParseResult
 
 import requests
@@ -28,3 +29,18 @@ def download_file(uri: ParseResult) -> str:
     open(filename, "wb").write(r.content)
     logger.info(f"Taxonomy saved into {filename}")
     return filename
+
+
+def extract_header_from(line: str, sep: str = "\t") -> List[str]:
+    elems = list(filter(None, line.split(sep)))
+    return list(map(lambda e: e.strip(), elems))
+
+
+def build_llull_to_taxo_map(structure_desc_file: str) -> Dict[str, str]:
+    llull_to_taxo_map = {}
+    with open(structure_desc_file) as f:
+        for line in f.read().splitlines():
+            mapping = list(map(lambda e: e.strip(), line.split("=")))
+            assert len(mapping) == 2, f"Mapping: {mapping}"
+            llull_to_taxo_map[mapping[0]] = mapping[1]
+    return llull_to_taxo_map

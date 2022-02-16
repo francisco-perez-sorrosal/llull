@@ -1,0 +1,10 @@
+ID	ParentID	Name
+1		Automotive
+2	1	Auto Body Styles
+3	2	Commercial Trucks
+4	2	Sedan
+5	2	Station Wagon
+6	2	SUV	Automotive
+7	2	Van	Automotive
+8	2	Convertible
+9	2	Coupe

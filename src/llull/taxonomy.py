@@ -5,7 +5,7 @@ from urllib.parse import urlparse
 from loguru import logger
 
 from .taxon import Taxon
-from .utils import download_file
+from .utils import build_llull_to_taxo_map, download_file, extract_header_from
 
 
 class Taxonomy:
@@ -25,7 +25,7 @@ class Taxonomy:
 
     def add(self, parent_id: Optional[str], node: Taxon):
         def add(current: Taxon, parent_id: str, node: Taxon, level: int):
-            if parent_id == current.name:
+            if parent_id == current.id:
                 # logger.debug(f"Including {node.name} in {current.id}")
                 node.level = level
                 node.parent = current
@@ -38,8 +38,8 @@ class Taxonomy:
                     parent_taxon = self.search_table[parent_id]
                     # logger.debug(f"Jumping to {parent_taxon.id}")
                     count += add(parent_taxon, parent_id, node, parent_taxon.level + 1)
-                else:  # Defensive code
-                    logger.warning(f"Very unlikely!!! Trying to add {node.id} to the children of {current.id}")
+                else:
+                    # logger.warning(f"Very unlikely!!! Trying to add {node.id} to the children of {current.id}")
                     for k in current.children.keys():
                         count += add(current.children[k], parent_id, node, level + 1)
                 return count
@@ -131,8 +131,8 @@ class Taxonomy:
         uri: str,
         sep: str = "/",
         add_root_taxon: bool = False,
-        skip_header: bool = False,
-        header_lines=0,
+        header_lines: int = 0,
+        structure_desc_file: Optional[str] = None,
     ) -> "Taxonomy":
 
         parsed_uri = urlparse(uri)
@@ -144,13 +144,54 @@ class Taxonomy:
         else:
             raise ValueError(f"URI scheme {parsed_uri.scheme} not valid")
 
+        if structure_desc_file:
+            return Taxonomy.from_structured(filename, name, header_lines, sep, add_root_taxon, structure_desc_file)
+        else:  # Path based taxonomy
+            return Taxonomy.from_path_like(filename, name, header_lines, sep, add_root_taxon)
+
+    @classmethod
+    def from_structured(cls, filename, name, header_lines, sep, add_root_taxon, structure_desc_file, header_line=0):
+
+        llull_to_taxo_map = build_llull_to_taxo_map(structure_desc_file)
+
+        with open(filename) as f:
+            t = Taxonomy(name)
+            if add_root_taxon:
+                root = Taxon("0", "root", 0)
+                t.add(None, root)
+
+            skipped_header_lines = 0
+            header: List[str] = []
+            for line in f.read().splitlines():
+                if skipped_header_lines < header_lines:
+                    if skipped_header_lines == header_line:  # Extract header
+                        header = extract_header_from(line)
+                        logger.info(f"Header: {header}")
+                    skipped_header_lines += 1
+                    continue
+
+                nodes_in_line = line.split(sep)
+                # assert len(nodes_in_line) == len(header) + 1  # Only the case of IAB
+                id_idx = header.index(llull_to_taxo_map["id"])
+                parent_id_idx = header.index(llull_to_taxo_map["parent_id"])
+                name_idx = header.index(llull_to_taxo_map["name"])
+                node = Taxon(nodes_in_line[id_idx], nodes_in_line[name_idx])
+                parent_id = nodes_in_line[parent_id_idx]
+                if parent_id == "" or not parent_id:
+                    parent_id = "0"
+                t.add(parent_id, node)
+
+            return t
+
+    @classmethod
+    def from_path_like(cls, filename, name, header_lines, sep, add_root_taxon):
         with open(filename) as f:
             t = Taxonomy(name)
 
             previous_line_nodes: List[str] = []
             skipped_header_lines = 0
             for line in f.read().splitlines():
-                if skip_header and skipped_header_lines < header_lines:
+                if skipped_header_lines < header_lines:
                     skipped_header_lines += 1
                     logger.info(f"Skipping header line {skipped_header_lines}: {line}")
                     continue

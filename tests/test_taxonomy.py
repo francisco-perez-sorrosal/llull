@@ -141,3 +141,19 @@ def test_taxonomy_creation_from_text_file(t):
     with pytest.raises(ValueError) as excinfo:
         Taxonomy.create_from_file("test", "hxxtp://this_is_wrong")
     assert "not valid" in str(excinfo.value)
+
+
+def test_structured_taxonomy_creation_from_text_file():
+    current_path = Path(os.path.dirname(os.path.realpath(__file__)))
+    mapping_path = current_path / "resources" / "iab_mapping.txt"
+    taxo_path = current_path / "resources" / "simple_structured_taxonomy.tsv"
+
+    s_t = Taxonomy.create_from_file(
+        "test", str(taxo_path), sep="\t", add_root_taxon=True, header_lines=1, structure_desc_file=str(mapping_path)
+    )
+    assert s_t.nodes_count == 10
+    assert s_t.search_table["1"].name == "Automotive"
+    assert len(s_t.root.children) == 1
+    assert len(s_t.search_table["2"].children) == 7
+    assert s_t.search_table["9"].parent == s_t.search_table["2"]
+    assert len(s_t.search_table["9"].children) == 0
